@@ -2,6 +2,8 @@
 let shiftDown = false;
 const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
 
+//browser.browserAction.onClicked.addListener(rotatePage);
+
 const rotatePage = () => {
     let currentRotation = document.body.style.transform;
     let rotateNumber = currentRotation.match(degreeRegex);
