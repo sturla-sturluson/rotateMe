@@ -18,7 +18,7 @@ const rotatePage = () => {
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Shift') {
+    if (e.key === 'Shift' && !shiftDown) {
         shiftDown = true;
     }
 }
@@ -32,8 +32,8 @@ document.addEventListener('keyup', (e) => {
 )
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'r' && shiftDown) {
-        console.log('rotating');
+    const key = e.key.toLowerCase();
+    if (key === 'r' && shiftDown) {
         rotatePage();
     }
 })
