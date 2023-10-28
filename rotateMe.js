@@ -1,7 +1,6 @@
 
 let shiftDown = false;
 const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
-
 //browser.browserAction.onClicked.addListener(rotatePage);
 
 const rotatePage = () => {
@@ -14,10 +13,24 @@ const rotatePage = () => {
     }
     rotateNumber += 90;
     if (rotateNumber === 360) {
-        rotateNumber = 0;
+        document.body.style = "";
     }
-    document.body.style.transform = `rotate(${rotateNumber}deg)`;
+    else {
+        document.body.style = `transform: rotate(${rotateNumber}deg);`;
+        setTopMargin(rotateNumber);
+    }
 }
+
+const setTopMargin = (rotateNumber) => {
+    const imgs = document.getElementsByTagName('img');
+    if (imgs.length == 0 || imgs.length > 1) return;
+    const img = imgs[0];
+    const imgHeight = img.height;
+    const imgWidth = img.width;
+    const higher = imgHeight > imgWidth ? imgHeight : imgWidth;
+    document.body.style = `transform: rotate(${rotateNumber}deg); margin-top: ${higher}px;`;
+}
+
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !shiftDown) {
