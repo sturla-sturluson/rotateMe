@@ -1,0 +1,20 @@
+html,
+body {
+    width: 300px;
+    font: 14px Arial, sans-serif;
+    color: #333;
+    background-color: chocolate;
+    user-select: none;
+}
+
+.page-choice {
+    width: 100%;
+    padding: 4px;
+    font-size: 1.5em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page-choice:hover {
+    background-color: #cff2f2;
+}

@@ -5,8 +5,9 @@ const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
 const documentBody = document.body;
 
 function openPage() {
-    console.log('rotatePage with button');
+    return;
 }
+
 
 function rotateFunc() {
     console.log('rotatePage with button');

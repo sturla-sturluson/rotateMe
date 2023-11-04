@@ -1,11 +1,8 @@
 
 let shiftDown = false;
 const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
-//browser.browserAction.onClicked.addListener(rotatePage);
 
-const rotatePage = () => {
-    let currentRotation = document.body.style.transform;
-    let rotateNumber = currentRotation.match(degreeRegex);
+const getRotatedNumber = (rotateNumber) => {
     if (rotateNumber) {
         rotateNumber = parseInt(rotateNumber[1]);
     } else {
@@ -13,24 +10,51 @@ const rotatePage = () => {
     }
     rotateNumber += 90;
     if (rotateNumber === 360) {
-        document.body.style = "";
+        rotateNumber = 0;
+    }
+    return rotateNumber;
+};
+
+const rotatePage = () => {
+    const img = findLargestImage();
+    if (!img) return;
+    let currentRotation = img.style.transform;
+    let rotateNumber = currentRotation.match(degreeRegex);
+    rotateNumber = getRotatedNumber(rotateNumber);
+    if (rotateNumber === 0) {
+        img.style = "";
     }
     else {
-        document.body.style = `transform: rotate(${rotateNumber}deg);`;
-        setTopMargin(rotateNumber);
+        settingImgStyle(img, rotateNumber);
     }
 }
 
-const setTopMargin = (rotateNumber) => {
-    const imgs = document.getElementsByTagName('img');
-    if (imgs.length == 0 || imgs.length > 1) return;
-    const img = imgs[0];
-    const imgHeight = img.height;
-    const imgWidth = img.width;
-    const higher = imgHeight > imgWidth ? imgHeight : imgWidth;
-    document.body.style = `transform: rotate(${rotateNumber}deg); margin-top: ${higher}px;`;
-}
+const settingImgStyle = (img, rotation) => {
+    if (rotation === 180) {
+        img.style = `transform: rotate(${rotation}deg); margin-top: 0px;`;
+        return;
+    };
+    const height = img.height;
+    const width = img.width;
+    const difference = width - height;
+    img.style = `transform: rotate(${rotation}deg); margin-top: ${difference / 2}px;`;
+};
 
+const findLargestImage = () => {
+    const imgs = document.getElementsByTagName('img');
+    if (imgs.length == 0) return;
+    let currImage = imgs[0];
+    let currArea = currImage.height * currImage.width;
+    for (let i = 1; i < imgs.length; i++) {
+        const img = imgs[i];
+        const area = img.height * img.width;
+        if (area > currArea) {
+            currArea = area;
+            currImage = img;
+        }
+    }
+    return currImage;
+};
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !shiftDown) {
@@ -38,14 +62,12 @@ document.addEventListener('keydown', (e) => {
     }
 }
 )
-
 document.addEventListener('keyup', (e) => {
     if (e.key === 'Shift') {
         shiftDown = false;
     }
 }
 )
-
 document.addEventListener('keydown', (e) => {
     const key = e.key.toLowerCase();
     if (key === 'r' && shiftDown) {
