@@ -9,9 +9,18 @@
 <body>
     <p>RotateMe</p>
     <p>Press 'Shift+R' to rotate</p>
-    <p>Rotates by 90° clockwise</p>
     <p>Use with care <b>&#60</b><b>3</b></p>
-    <script src="rotate_options.js"></script>
+    <form>
+        <input type="checkbox" id="rotationDirection" name="rotationDirection">
+        <label for="rotationDirection">Rotate clockwise</label>
+        <br><br>
+        <p id="savedPrompt">Not Saved</p>
+        <button type="submit">Save</button>
+    </form>
+
+
 </body>
+
+<script src="rotate_options.js"></script>
 
 </html>

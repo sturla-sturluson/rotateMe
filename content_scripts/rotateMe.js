@@ -1,6 +1,35 @@
-
 let shiftDown = false;
 const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
+
+const onError = (error) => {
+    console.log(`Error: ${error}`);
+}
+
+const onGot = (result) => {
+    const rotationDirection = result.rotationDirection;
+    if (rotationDirection === 'clockwise') {
+        rotatePage();
+    }
+}
+
+const getting = browser.storage.sync.get("rotationDirection");
+getting.then(onGot, onError);
+
+const findLargestImage = () => {
+    const imgs = document.getElementsByTagName('img');
+    if (imgs.length == 0) return;
+    let currImage = imgs[0];
+    let currArea = currImage.height * currImage.width;
+    for (let i = 1; i < imgs.length; i++) {
+        const img = imgs[i];
+        const area = img.height * img.width;
+        if (area > currArea) {
+            currArea = area;
+            currImage = img;
+        }
+    }
+    return currImage;
+};
 
 const getRotatedNumber = (rotateNumber) => {
     if (rotateNumber) {
@@ -40,21 +69,9 @@ const settingImgStyle = (img, rotation) => {
     img.style = `transform: rotate(${rotation}deg); margin-top: ${difference / 2}px;`;
 };
 
-const findLargestImage = () => {
-    const imgs = document.getElementsByTagName('img');
-    if (imgs.length == 0) return;
-    let currImage = imgs[0];
-    let currArea = currImage.height * currImage.width;
-    for (let i = 1; i < imgs.length; i++) {
-        const img = imgs[i];
-        const area = img.height * img.width;
-        if (area > currArea) {
-            currArea = area;
-            currImage = img;
-        }
-    }
-    return currImage;
-};
+
+
+
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Shift' && !shiftDown) {
