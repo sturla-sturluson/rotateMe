@@ -7,18 +7,21 @@
 </head>
 
 <body>
-    <p>RotateMe</p>
-    <p>Press 'Shift+R' to rotate</p>
-    <p>Use with care <b>&#60</b><b>3</b></p>
+    <button type="submit" id="disableButton">
+        Disable
+    </button>
+
     <form>
+        <p>RotateMe</p>
+        <p>Press 'Shift+R' to rotate</p>
+        <p>Use with care <b>&#60</b><b>3</b></p>
         <input type="checkbox" id="rotationDirection" name="rotationDirection">
         <label for="rotationDirection">Rotate clockwise</label>
-        <p id="loadedP">Not Loaded</p>
+        <p id="loadedP"></p>
         <div>
             <p>
                 <button type="submit">Save</button>
             </p>
-            <p id="savedPrompt">Not Saved</p>
         </div>
     </form>
 

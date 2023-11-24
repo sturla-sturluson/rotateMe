@@ -1,6 +1,6 @@
 html,
 body {
-    width: 300px;
+    width: 200px;
     font: 14px Arial, sans-serif;
     color: #333;
     background-color: chocolate;
@@ -18,3 +18,28 @@ body {
 .page-choice:hover {
     background-color: #cff2f2;
 }
+#disableButton {
+    width: 100%;
+    padding: 4px;
+    font-size: 1.5em;
+    text-align: center;
+    background-color: #cff2f2;
+    border: #585858;
+    border-radius: 5px;
+    border-width: 5px;
+}
+#disableButton:hover {
+    background-color: #68ffff;
+    border-style: inset;
+    border-width: 15px;
+    border: #000000;
+}
+#disableButton:active {
+    background-color: #454545;
+    color: antiquewhite;
+    border-style: inset;
+    border-width: 15px;
+    border: #000000;
+}
+
+

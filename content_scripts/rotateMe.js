@@ -1,19 +1,9 @@
 let shiftDown = false;
+let rotateClockWise = true;
+let savedSetting = true;
+let isEnabled = false;
 const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
 
-const onError = (error) => {
-    console.log(`Error: ${error}`);
-}
-
-const onGot = (result) => {
-    const rotationDirection = result.rotationDirection;
-    if (rotationDirection === 'clockwise') {
-        rotatePage();
-    }
-}
-
-const getting = browser.storage.sync.get("rotationDirection");
-getting.then(onGot, onError);
 
 const findLargestImage = () => {
     const imgs = document.getElementsByTagName('img');
@@ -37,14 +27,29 @@ const getRotatedNumber = (rotateNumber) => {
     } else {
         rotateNumber = 0;
     }
-    rotateNumber += 90;
-    if (rotateNumber === 360) {
-        rotateNumber = 0;
-    }
-    return rotateNumber;
+    if (!rotateClockWise) {
+        return getCounterClockwiseRotatedNumber(rotateNumber);
+    } else
+        return getClockwiseRotatedNumber(rotateNumber);
 };
 
-const rotatePage = () => {
+const getClockwiseRotatedNumber = (rotateNumber) => {
+    rotateNumber += 90;
+    if (rotateNumber === 360) rotateNumber = 0;
+    return rotateNumber;
+};
+const getCounterClockwiseRotatedNumber = (rotateNumber) => {
+    rotateNumber -= 90;
+    if (rotateNumber === -90) rotateNumber = 270;
+    return rotateNumber;
+}
+
+const rotatePage = async () => {
+    if (!isEnabled) {
+        console.log("Plugin is disabled");
+        return
+    };
+    setClockwiseSetting();
     const img = findLargestImage();
     if (!img) return;
     let currentRotation = img.style.transform;
@@ -69,8 +74,45 @@ const settingImgStyle = (img, rotation) => {
     img.style = `transform: rotate(${rotation}deg); margin-top: ${difference / 2}px;`;
 };
 
+const setDisabledSetting = () => {
+    function setCurrentChoice(result) {
+        isEnabled = result.isEnabled;
+        if (isEnabled === undefined) {
+            isEnabled = false;
+            console.log("Setting is undefined, setting to false");
+        }
 
+    }
 
+    function onError(error) {
+        console.log(`Error: ${error}`);
+        isEnabled = false;
+    }
+    let getting = browser.storage.sync.get("isEnabled");
+    getting.then(setCurrentChoice, onError);
+    isEnabled = savedSetting;
+
+}
+
+const setClockwiseSetting = () => {
+    function setCurrentChoice(result) {
+        savedSetting = result.rotationDirection;
+        if (savedSetting === undefined) {
+            savedSetting = true;
+            console.log("Setting is undefined, setting to true");
+        }
+
+    }
+
+    function onError(error) {
+        console.log(`Error: ${error}`);
+        savedSetting = true;
+    }
+    let getting = browser.storage.sync.get("rotationDirection");
+    getting.then(setCurrentChoice, onError);
+    rotateClockWise = savedSetting;
+
+}
 
 
 document.addEventListener('keydown', (e) => {
@@ -91,3 +133,8 @@ document.addEventListener('keydown', (e) => {
         rotatePage();
     }
 })
+
+setDisabledSetting();
+setClockwiseSetting();
+
+
