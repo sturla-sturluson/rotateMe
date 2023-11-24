@@ -45,6 +45,11 @@ const getCounterClockwiseRotatedNumber = (rotateNumber) => {
 }
 
 const rotatePage = async () => {
+    setDisabledSetting()
+
+}
+
+const rotateAction = () => {
     if (!isEnabled) {
         console.log("Plugin is disabled");
         return
@@ -62,7 +67,6 @@ const rotatePage = async () => {
         settingImgStyle(img, rotateNumber);
     }
 }
-
 const settingImgStyle = (img, rotation) => {
     if (rotation === 180) {
         img.style = `transform: rotate(${rotation}deg); margin-top: 0px;`;
@@ -74,13 +78,14 @@ const settingImgStyle = (img, rotation) => {
     img.style = `transform: rotate(${rotation}deg); margin-top: ${difference / 2}px;`;
 };
 
-const setDisabledSetting = () => {
+const setDisabledSetting = async () => {
     function setCurrentChoice(result) {
         isEnabled = result.isEnabled;
         if (isEnabled === undefined) {
             isEnabled = false;
             console.log("Setting is undefined, setting to false");
         }
+        rotateAction();
 
     }
 
@@ -90,7 +95,6 @@ const setDisabledSetting = () => {
     }
     let getting = browser.storage.sync.get("isEnabled");
     getting.then(setCurrentChoice, onError);
-    isEnabled = savedSetting;
 
 }
 

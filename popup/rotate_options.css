@@ -42,4 +42,8 @@ body {
     border: #000000;
 }
 
+.disabledWindow{
+    background-color: #454545;
+}
+
 

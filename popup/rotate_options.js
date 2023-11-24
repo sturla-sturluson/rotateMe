@@ -1,14 +1,14 @@
 const clockwiseCheckButton = document.querySelector("#rotationDirection");
-const savedPrompt = document.querySelector("#savedPrompt");
 const loadedP = document.querySelector("#loadedP");
 const disableButton = document.querySelector("#disableButton");
-let isEnabled = false;
+const settingsWindow = document.querySelector("#settingsWindow");
+const clockwiseSaveButton = document.querySelector("#clockwiseSaveButton");
+let isEnabled = undefined;
 
 function saveOptions(e) {
     e.preventDefault();
     browser.storage.sync.set({
         rotationDirection: clockwiseCheckButton.checked,
-        isEnabled: isEnabled
     });
     loadedP.innerHTML = "Saved!";
 }
@@ -34,6 +34,9 @@ function syncDisableSettings() {
             isEnabled = false;
             console.log("Setting is undefined, setting to false");
         }
+
+
+        initialSetup();
     }
 
     function onError(error) {
@@ -42,33 +45,55 @@ function syncDisableSettings() {
     }
     let getting = browser.storage.sync.get("isEnabled");
     getting.then(setCurrentChoice, onError);
-    initialSetup();
+
 }
 
 const disableButtonAction = () => {
+    loadedP.innerHTML = "Clicked disable button"
     if (!isEnabled) {
-        disableButton.innerHTML = "Enable";
-        isEnabled = true;
+        setEnabled();
+        browser.storage.sync.set({
+            isEnabled: true,
+        });
     }
     else {
-        disableButton.innerHTML = "Disable";
-        isEnabled = false;
+        setDisabled();
+        browser.storage.sync.set({
+            isEnabled: false,
+        });
     }
-    saveOptions();
 
+}
+const setEnabled = () => {
+    disableButton.innerHTML = "Disable";
+    isEnabled = true;
+    settingsWindow.classList.remove("disabledWindow");
+    clockwiseCheckButton.disabled = false;
+    clockwiseSaveButton.disabled = false;
+
+}
+
+const setDisabled = () => {
+    disableButton.innerHTML = "Enable";
+    isEnabled = false;
+    settingsWindow.classList.add("disabledWindow");
+    clockwiseCheckButton.disabled = true;
+    clockwiseSaveButton.disabled = true;
 }
 
 const initialSetup = () => {
     if (isEnabled) {
-        disableButton.innerHTML = "Disable";
+        setEnabled();
     }
     else {
-        disableButton.innerHTML = "Enable";
+        setDisabled();
     }
 }
 
 
 disableButton.addEventListener("click", disableButtonAction);
-document.addEventListener("DOMContentLoaded", syncDisableSettings);
 document.addEventListener("DOMContentLoaded", syncClockwiseSettings);
-document.querySelector("form").addEventListener("submit", saveOptions);
+document.addEventListener("DOMContentLoaded", syncDisableSettings);
+clockwiseSaveButton.addEventListener("click", saveOptions);
+
+
