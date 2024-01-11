@@ -112,7 +112,8 @@ const setDisabledSetting = async (rotating) => {
             isEnabled = false;
             console.log("Setting is undefined, setting to false");
         }
-        if (rotating) rotateAction();
+        //if (rotating) rotateAction();
+        if (rotating) rotateActionMult();
 
     }
 
