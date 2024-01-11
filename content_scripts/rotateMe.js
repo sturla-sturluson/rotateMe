@@ -45,7 +45,7 @@ const getCounterClockwiseRotatedNumber = (rotateNumber) => {
 }
 
 const rotatePage = async () => {
-    setDisabledSetting()
+    setDisabledSetting(true)
 
 }
 
@@ -55,6 +55,11 @@ const rotateAction = () => {
         return
     };
     setClockwiseSetting();
+    rotateLargestImage();
+
+}
+
+const rotateLargestImage = () => {
     const img = findLargestImage();
     if (!img) return;
     let currentRotation = img.style.transform;
@@ -78,14 +83,14 @@ const settingImgStyle = (img, rotation) => {
     img.style = `transform: rotate(${rotation}deg); margin-top: ${difference / 2}px;`;
 };
 
-const setDisabledSetting = async () => {
+const setDisabledSetting = async (rotating) => {
     function setCurrentChoice(result) {
         isEnabled = result.isEnabled;
         if (isEnabled === undefined) {
             isEnabled = false;
             console.log("Setting is undefined, setting to false");
         }
-        rotateAction();
+        if (rotating) rotateAction();
 
     }
 
@@ -138,7 +143,7 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
-setDisabledSetting();
+setDisabledSetting(false);
 setClockwiseSetting();
 
 
