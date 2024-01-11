@@ -67,6 +67,28 @@ const rotateAction = () => {
         settingImgStyle(img, rotateNumber);
     }
 }
+const rotateActionMult = () => {
+    if (!isEnabled) {
+        console.log("Plugin is disabled");
+        return
+    };
+    setClockwiseSetting();
+    const imgs = document.getElementsByTagName('img');
+    if (imgs.length === 0) return;
+    let currentRotation = imgs[0].style.transform;
+    let rotateNumber = currentRotation.match(degreeRegex);
+    rotateNumber = getRotatedNumber(rotateNumber);
+    if (rotateNumber === 0) {
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].style = "";
+        }
+    }
+    else {
+        for (let i = 0; i < imgs.length; i++) {
+            settingImgStyle(imgs[i], rotateNumber);
+        }
+    }
+}
 const settingImgStyle = (img, rotation) => {
     if (rotation === 180) {
         img.style = `transform: rotate(${rotation}deg); margin-top: 0px;`;
@@ -85,7 +107,8 @@ const setDisabledSetting = async () => {
             isEnabled = false;
             console.log("Setting is undefined, setting to false");
         }
-        rotateAction();
+        rotateActionMult();
+        //rotateAction();
 
     }
 
