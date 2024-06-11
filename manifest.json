@@ -15,9 +15,9 @@
     "content_scripts": [
         {
             "matches": [
-                "*://*/*",
-                "*://*.mozilla.org/*",
-                "*://*.sturlas.me/*"
+                "http://*/*",
+                "https://*/*",
+                "file://*/*"
             ],
             "js": [
                 "./src/rotateMe.js"
