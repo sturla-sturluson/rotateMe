@@ -3,7 +3,7 @@ body {
     width: 200px;
     font: 14px Arial, sans-serif;
     color: #333;
-    background-color: chocolate;
+    background-color: rgb(92, 164, 150);
     user-select: none;
 }
 
@@ -18,6 +18,16 @@ body {
 .page-choice:hover {
     background-color: #cff2f2;
 }
+
+._container {
+    padding: 10px;
+    margin: 10px;
+    border-color: #000000;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+}
+
 #disableButton {
     width: 100%;
     padding: 4px;
@@ -28,12 +38,14 @@ body {
     border-radius: 5px;
     border-width: 5px;
 }
+
 #disableButton:hover {
     background-color: #68ffff;
     border-style: inset;
     border-width: 15px;
     border: #000000;
 }
+
 #disableButton:active {
     background-color: #454545;
     color: antiquewhite;
@@ -42,8 +54,6 @@ body {
     border: #000000;
 }
 
-.disabledWindow{
+.disabledWindow {
     background-color: #454545;
 }
-
-
