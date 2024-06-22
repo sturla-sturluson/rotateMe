@@ -2,7 +2,7 @@
     "description": "Rotates the web page you are on",
     "manifest_version": 2,
     "name": "RotateMe",
-    "version": "1.51",
+    "version": "1.52",
     "homepage_url": "https://sturlas.me/about/rotateMe",
     "icons": {
         "48": "src/icons/logo_icon.svg",
