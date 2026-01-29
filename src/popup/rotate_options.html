@@ -13,13 +13,15 @@
         </button>
     </form>
 
-    <div id="settingsWindow">
+    <div id="settingsWindow" class="vstack">
         <form>
-            <div id="rotateMeContainer" class="_container">
+            <div id="rotateMeContainer" class="_container vstack">
                 <h4>Rotate me</h4>
-                <p>Press 'Shift+R' to rotate</p>
-                <input type="checkbox" id="rotateClockwiseCheckbox" name="rotationDirection">
-                <label for="rotationDirection">Rotate clockwise?</label>
+                <h6>Press 'Shift+R' to rotate</h6>
+                <div class="hstack">
+                    <input type="checkbox" id="rotateClockwiseCheckbox" name="rotationDirection">
+                    <label for="rotationDirection">Rotate clockwise?</label>
+                </div>
             </div>
         </form>
     </div>
@@ -29,6 +31,8 @@
 
 </body>
 
+<script src="../constants.js"></script>
+<script src="../utils.js"></script>
 <script src="rotate_options.js"></script>
 
 </html>

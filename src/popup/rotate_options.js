@@ -4,6 +4,8 @@ const disableButton = document.querySelector("#disableButton");
 const settingsWindow = document.querySelector("#settingsWindow");
 const rotateMeContainer = document.querySelector("#rotateMeContainer");
 
+
+
 let isEnabled = false;
 let rotateClockwise = true;
 
@@ -11,19 +13,21 @@ let rotateClockwise = true;
 const _ROTATE_CLOCKWISE = true;
 const _ROTATE_SHORTCUT = "r";
 const _ENABLED = false;
-// Variables
+
+
+
 
 const updateClockwiseDirection = async (e) => {
     clockwiseCheckButton.checked = !rotateClockwise;
     rotateClockwise = !rotateClockwise;
-    await browser.storage.sync.set({ rotateMeRotateClockwise: rotateClockwise });
+    await setSetting(ROTATE_ME_ROTATE_CLOCKWISE_KEY, rotateClockwise);
 }
 
 const disableButtonAction = async () => {
     const enabled = !isEnabled;
     if (enabled) { setEnabled(); }
     else { setDisabled(); }
-    await browser.storage.sync.set({ rotateMeIsEnabled: enabled });
+    await setSetting(ROTATE_ME_ENABLED_KEY, enabled);
 }
 const setEnabled = () => {
     disableButton.innerHTML = "Disable";
@@ -40,17 +44,17 @@ const setDisabled = () => {
 }
 
 const loadSettings = async (e) => {
-    let isEnabledSetting = await browser.storage.sync.get("rotateMeIsEnabled");
-    let rotateClockwiseSetting = await browser.storage.sync.get("rotateMeRotateClockwise");
+    let isEnabledSetting = await getSetting(ROTATE_ME_ENABLED_KEY);
+    let rotateClockwiseSetting = await getSetting(ROTATE_ME_ROTATE_CLOCKWISE_KEY);
     if (isEnabledSetting === undefined || isEnabledSetting.rotateMeIsEnabled === undefined) {
         isEnabled = true;
-        await browser.storage.sync.set({ rotateMeIsEnabled: isEnabled });
+        await setSetting(ROTATE_ME_ENABLED_KEY, isEnabled);
     } else {
         isEnabled = isEnabledSetting.rotateMeIsEnabled;
     }
     if (rotateClockwiseSetting === undefined || rotateClockwiseSetting.rotateMeRotateClockwise === undefined) {
         rotateClockwise = true;
-        await browser.storage.sync.set({ rotateMeRotateClockwise: rotateClockwise });
+        await setSetting(ROTATE_ME_ROTATE_CLOCKWISE_KEY, rotateClockwise);
     } else { rotateClockwise = rotateClockwiseSetting.rotateMeRotateClockwise; }
 
     if (isEnabled) { setEnabled(); }

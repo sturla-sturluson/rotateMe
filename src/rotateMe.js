@@ -12,15 +12,15 @@ const degreeRegex = new RegExp('rotate\\((\\d+)deg\\)');
 
 
 const loadSettings = async () => {
-    let isEnabledSetting = await browser.storage.sync.get("rotateMeIsEnabled");
-    let rotateClockwiseSetting = await browser.storage.sync.get("rotateMeRotateClockwise");
+    let isEnabledSetting = await getSetting(ROTATE_ME_ENABLED_KEY);
+    let rotateClockwiseSetting = await getSetting(ROTATE_ME_ROTATE_CLOCKWISE_KEY);
     if (isEnabledSetting === undefined || isEnabledSetting.rotateMeIsEnabled === undefined) {
         isEnabled = true;
-        await browser.storage.sync.set({ rotateMeIsEnabled: isEnabled });
+        await setSetting(ROTATE_ME_ENABLED_KEY, isEnabled);
     } else { isEnabled = isEnabledSetting.rotateMeIsEnabled; }
     if (rotateClockwiseSetting === undefined || rotateClockwiseSetting.rotateMeRotateClockwise === undefined) {
         rotateClockwise = true;
-        await browser.storage.sync.set({ rotateMeRotateClockwise: rotateClockwise });
+        await setSetting(ROTATE_ME_ROTATE_CLOCKWISE_KEY, rotateClockwise);
     } else { rotateClockwise = rotateClockwiseSetting.rotateMeRotateClockwise; }
 
 }
